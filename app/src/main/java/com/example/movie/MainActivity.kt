@@ -11,17 +11,17 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainActivity : AppCompatActivity(), MyMovieAdapter.RecyclerViewItemClick {
+class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setAdapter()
-        getAllMovieList()
+       // setAdapter()
+       // getAllMovieList()
     }
-    private fun setAdapter() {
+    /*private fun setAdapter() {
         binding.recyclerView.layoutManager = LinearLayoutManager(
             this,
             RecyclerView.VERTICAL,
@@ -48,5 +48,5 @@ class MainActivity : AppCompatActivity(), MyMovieAdapter.RecyclerViewItemClick {
                 binding.recyclerView.adapter =MyMovieAdapter(list = list, itemClick = this@MainActivity)
             }
         })
-    }
+    }*/
 }
