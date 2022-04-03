@@ -40,4 +40,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name"
         app:layout_constraintVertical_bias="0.169" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
