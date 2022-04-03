@@ -1,20 +1,20 @@
 package com.example.movie
 
-import android.content.Intent
+//import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+//import android.util.Log
 import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+//import androidx.recyclerview.widget.LinearLayoutManager
+//import androidx.recyclerview.widget.RecyclerView
 import com.example.movie.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationBarView
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+//import retrofit2.Call
+//import retrofit2.Callback
+//import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
