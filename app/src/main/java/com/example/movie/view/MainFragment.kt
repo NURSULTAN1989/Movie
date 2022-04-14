@@ -1,63 +1,71 @@
-package com.example.movie
+package com.example.movie.view
 
-import android.content.Intent
+//import android.content.Intent
+//import android.util.Log
+//import androidx.recyclerview.widget.LinearLayoutManager
+//import androidx.recyclerview.widget.RecyclerView
+//import retrofit2.Call
+//import retrofit2.Callback
+//import retrofit2.Response
+//import kotlin.Result
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.movie.databinding.FragmentMainBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import kotlin.Result
-import kotlin.coroutines.CoroutineContext
+import com.example.movie.model.MovieList
+import com.example.movie.viewmodel.MovieListViewModel
 
-class MainFragment : Fragment(), CoroutineScope {
-    lateinit var binding:FragmentMainBinding
+class MainFragment : Fragment() {
+    lateinit var binding: FragmentMainBinding
     lateinit var adapter: MyMovieAdapter
 
-    override val coroutineContext: CoroutineContext = Dispatchers.Main
 
     lateinit var movie: MovieList
+    private lateinit var viewModel: MovieListViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        binding= FragmentMainBinding.inflate(inflater)
+        binding = FragmentMainBinding.inflate(inflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //getAllMovieList()
-        getAllMovieListCoroutine()
+        // getAllMovieList()
+        initAndObserveViewModel()
+
+
     }
 
-    private fun getAllMovieListCoroutine() {
-
-        launch {
-            movie = Common.getPostApi().getMoviesList()
-
-            adapter=MyMovieAdapter(list=movie.results)
-            binding.recyclerView.adapter =adapter
-
-            adapter.movieClick=object:MyMovieAdapter.MovieItemClick{
-                override fun movieItemClick(item: Movie) {
-                    val action = MainFragmentDirections.actionMainFragment2ToDetailFragment2(item)
-                    findNavController().navigate(action)
+    private fun initAndObserveViewModel() {
+        viewModel = ViewModelProvider(this)[MovieListViewModel::class.java]
+        viewModel.liveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is MovieListViewModel.State.Result -> {
+                    adapter = MyMovieAdapter(list = it.list?.results)
+                    binding.recyclerView.adapter = adapter
                 }
             }
+
         }
+        viewModel.openDetail.observe(
+            viewLifecycleOwner,
+            {
+                val action = MainFragmentDirections.actionMainFragmentToDetailFragment(it)
+                findNavController().navigate(action)
+
+            }
+
+        )
+
     }
+
 
 //    private fun getAllMovieList1() {
 //        Common.getPostApi().getMoviesList().enqueue(object : Callback<MovieList> {

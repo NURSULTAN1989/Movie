@@ -1,4 +1,4 @@
-package com.example.movie
+package com.example.movie.model
 
 import android.util.Log
 import okhttp3.OkHttpClient

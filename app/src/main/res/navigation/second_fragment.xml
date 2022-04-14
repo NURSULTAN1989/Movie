@@ -6,7 +6,7 @@
     app:startDestination="@id/secondFragment">
     <fragment
         android:id="@+id/secondFragment"
-        android:name="com.example.movie.SecondFragment"
+        android:name="com.example.movie.view.SecondFragment"
         android:label="second_fragment"
         tools:layout="@layout/second_fragment" />
 </navigation>

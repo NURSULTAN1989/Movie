@@ -1,4 +1,4 @@
-package com.example.movie
+package com.example.movie.model
 
 import android.os.Parcel
 import android.os.Parcelable
