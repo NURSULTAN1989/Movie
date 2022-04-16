@@ -1,32 +1,29 @@
 package com.example.movie.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.movie.model.Movie
-import com.example.movie.model.MovieList
 import com.example.movie.databinding.FragmentMainBinding
-import com.example.movie.model.Common
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
+import com.example.movie.model.Movie
+import com.example.movie.viewmodel.MovieListViewModel
 
-class MainFragment : Fragment(), CoroutineScope {
-    lateinit var binding:FragmentMainBinding
-    lateinit var adapter: MyMovieAdapter
+class MainFragment : Fragment() {
+    private lateinit var binding:FragmentMainBinding
+    private lateinit var viewModel:MovieListViewModel
+    private lateinit var adapter: MyMovieAdapter
 
-    override val coroutineContext: CoroutineContext = Dispatchers.Main
+    //override val coroutineContext: CoroutineContext = Dispatchers.Main
 
-    lateinit var movie: MovieList
+ //   lateinit var movie: MovieList
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         binding= FragmentMainBinding.inflate(inflater)
         return binding.root
     }
@@ -34,14 +31,13 @@ class MainFragment : Fragment(), CoroutineScope {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //getAllMovieList()
-        getAllMovieListCoroutine()
+       // getAllMovieListCoroutine()
+        initAndObserveViewModel()
     }
 
-    private fun getAllMovieListCoroutine() {
+    /*private fun getAllMovieListCoroutine() {
 
         launch {
-            movie = Common.getPostApi().getMoviesList()
-
             adapter= MyMovieAdapter(list=movie.results)
             binding.recyclerView.adapter =adapter
 
@@ -52,7 +48,7 @@ class MainFragment : Fragment(), CoroutineScope {
                 }
             }
         }
-    }
+    }*/
 
 //    private fun getAllMovieList1() {
 //        Common.getPostApi().getMoviesList().enqueue(object : Callback<MovieList> {
@@ -85,5 +81,29 @@ class MainFragment : Fragment(), CoroutineScope {
 //            .commit()
 //    }
 
+    private fun initAndObserveViewModel() {
+        viewModel = ViewModelProvider(this)[MovieListViewModel::class.java]
 
+        viewModel.liveData.observe(
+            viewLifecycleOwner
+        ) {
+            adapter = MyMovieAdapter(list = it.results,viewModel.recyclerViewItemClickListener)
+            binding.recyclerView.adapter = adapter
+            /*adapter.movieClick=object: MyMovieAdapter.MovieItemClick {
+                override fun movieItemClick(item: Movie) {
+                    val action = MainFragmentDirections.actionMainFragmentToDetailFragment(item)
+                    findNavController().navigate(action)
+                }
+            }*/
+        }
+
+        viewModel.openDetail.observe(
+            viewLifecycleOwner
+        ) {
+            it.getContentIfNotHandled()?.let {
+                val action = MainFragmentDirections.actionMainFragmentToDetailFragment(it)
+                findNavController().navigate(action)
+            }
+        }
+    }
 }

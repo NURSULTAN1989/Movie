@@ -33,12 +33,12 @@ class MainActivity : AppCompatActivity() {
     private fun initOnDestinationChangedListener() {
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             when (destination.id) {
-                R.id.mainFragment2,
+                R.id.mainFragment,
                 R.id.second_fragment
                 -> {
                     binding.bottomNavigation.visibility = View.VISIBLE
                 }
-                R.id.detailFragment2 -> {
+                R.id.detailFragment -> {
                     binding.bottomNavigation.visibility = View.GONE
                 }
             }
