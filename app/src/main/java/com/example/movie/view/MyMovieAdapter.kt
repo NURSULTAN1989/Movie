@@ -1,19 +1,18 @@
-package com.example.movie
+package com.example.movie.view
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie.databinding.ItemLayoutBinding
+import com.example.movie.model.Movie
 import com.squareup.picasso.Picasso
-import kotlinx.serialization.Serializable
 
 class MyMovieAdapter(
     var list: List<Movie>
     ):RecyclerView.Adapter<MyMovieAdapter.MovieViewHolder>(){
    class MovieViewHolder(var binding:ItemLayoutBinding):RecyclerView.ViewHolder(binding.root)
     var listMovies = list
-    lateinit var movieClick:MovieItemClick
+    lateinit var movieClick: MovieItemClick
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         return MovieViewHolder(ItemLayoutBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
@@ -22,7 +21,7 @@ class MyMovieAdapter(
         with(holder.binding) {
             val movie = listMovies[position]
             txtName.text=movie.title
-            Picasso.get().load(IMAGE_URL+movie.posterPath).into(imageMovie)
+            Picasso.get().load(IMAGE_URL +movie.posterPath).into(imageMovie)
             executePendingBindings()
             root.setOnClickListener {
                 movieClick.movieItemClick(movie)

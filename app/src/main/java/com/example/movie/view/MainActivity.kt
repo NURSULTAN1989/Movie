@@ -1,4 +1,4 @@
-package com.example.movie
+package com.example.movie.view
 
 //import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +8,7 @@ import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.movie.R
 //import androidx.recyclerview.widget.LinearLayoutManager
 //import androidx.recyclerview.widget.RecyclerView
 import com.example.movie.databinding.ActivityMainBinding
@@ -33,7 +34,8 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             when (destination.id) {
                 R.id.mainFragment2,
-                R.id.second_fragment -> {
+                R.id.second_fragment
+                -> {
                     binding.bottomNavigation.visibility = View.VISIBLE
                 }
                 R.id.detailFragment2 -> {

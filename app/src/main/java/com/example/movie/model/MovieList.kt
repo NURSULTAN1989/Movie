@@ -1,9 +1,9 @@
-package com.example.movie
+package com.example.movie.model
 
 import android.os.Parcelable
+import com.example.movie.model.Movie
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
-import kotlin.Result
 
 @Parcelize
 data class MovieList(

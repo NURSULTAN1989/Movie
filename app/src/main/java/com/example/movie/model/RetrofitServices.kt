@@ -1,10 +1,8 @@
-package com.example.movie
+package com.example.movie.model
 
-import retrofit2.Call
+import com.example.movie.model.MovieList
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
-import retrofit2.http.QueryName
 
 interface RetrofitServices {
     @GET("movie/popular")
