@@ -33,11 +33,11 @@ class MainFragment : Fragment() {
 
     private fun initAndObserveViewModel() {
         viewModel = ViewModelProvider(this)[MovieListViewModel::class.java]
-
         viewModel.liveData.observe(
             viewLifecycleOwner
         ) {
-            adapter = MyMovieAdapter(list = it.results,viewModel.recyclerViewItemClickListener)
+            val movie=it.results
+            adapter = MyMovieAdapter(list = movie, viewModel.recyclerViewItemClickListener)
             binding.recyclerView.adapter = adapter
 
         }
