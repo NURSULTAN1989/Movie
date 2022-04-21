@@ -18,18 +18,15 @@ class MainFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View {
+    ): View{
         binding= FragmentMainBinding.inflate(inflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initAndObserveViewModel()
     }
-
-
 
     private fun initAndObserveViewModel() {
         viewModel = ViewModelProvider(this)[MovieListViewModel::class.java]
@@ -39,7 +36,6 @@ class MainFragment : Fragment() {
             val movie=it.results
             adapter = MyMovieAdapter(list = movie, viewModel.recyclerViewItemClickListener)
             binding.recyclerView.adapter = adapter
-
         }
 
         viewModel.openDetail.observe(

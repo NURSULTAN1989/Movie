@@ -1,5 +1,6 @@
 package com.example.movie.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -37,11 +38,13 @@ class MovieListViewModel: ViewModel(), CoroutineScope {
     }
 
     private fun getAllMovieListCoroutine() {
-
         launch {
                 val response=Common.getPostApi().getMoviesList()
             if (response.isSuccessful){
                 _liveData.value=response.body()
+                Log.d("CORUTINE_ERROR","Есть ДАННЫе")
+            }else{
+                Log.d("CORUTINE_ERROR","НЕТ ДАННЫХ")
             }
 
         }
