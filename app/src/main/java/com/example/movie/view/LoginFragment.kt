@@ -51,10 +51,7 @@ class LoginFragment : Fragment(), CoroutineScope {
                     username = binding.login.text.toString(),
                     password = binding.password.text.toString(),
                     request_token = body?.request_token ?: ""))
-
-
             }
-
         }
     }
     fun login(bodyRequest: BodyRequest){
