@@ -8,7 +8,7 @@ import com.example.movie.model.Movie
 import com.squareup.picasso.Picasso
 
 class MyMovieAdapter(
-    var list: List<Movie> ?= null
+    var list: List<Movie>
     ):RecyclerView.Adapter<MyMovieAdapter.MovieViewHolder>(){
    class MovieViewHolder(var binding:ItemLayoutBinding):RecyclerView.ViewHolder(binding.root)
     var listMovies = list
@@ -19,14 +19,12 @@ class MyMovieAdapter(
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         with(holder.binding) {
-            val movie = listMovies?.get(position)
-            txtName.text=movie?.title
-            Picasso.get().load(IMAGE_URL +movie?.posterPath).into(imageMovie)
+            val movie = listMovies.get(position)
+            txtName.text=movie.title
+            Picasso.get().load(IMAGE_URL +movie.posterPath).into(imageMovie)
             executePendingBindings()
             root.setOnClickListener {
-                if (movie != null) {
                     movieClick.movieItemClick(movie)
-                }
                 true
             }
         }
@@ -35,7 +33,7 @@ class MyMovieAdapter(
         private const val IMAGE_URL = "https://image.tmdb.org/t/p/w500"
     }
 
-    override fun getItemCount(): Int = list?.size ?: 0
+    override fun getItemCount(): Int = list.size
 
     interface MovieItemClick {
 

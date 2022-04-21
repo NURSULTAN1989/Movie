@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.movie.databinding.FragmentMainBinding
-import com.example.movie.model.MovieList
 import com.example.movie.viewmodel.MovieListViewModel
 
 class MainFragment : Fragment() {
@@ -27,7 +26,7 @@ class MainFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View{
         binding = FragmentMainBinding.inflate(inflater)
         return binding.root
     }

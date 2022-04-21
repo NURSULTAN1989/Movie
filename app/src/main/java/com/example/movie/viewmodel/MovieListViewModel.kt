@@ -38,13 +38,11 @@ class MovieListViewModel : ViewModel(), CoroutineScope {
     }
 
     private fun getAllMovieListCoroutine() {
-
         launch {
             val response = Common.getPostApi().getMoviesList()
             if (response.isSuccessful) {
                 _liveData.value = response.body()
             }
-
         }
     }
 
