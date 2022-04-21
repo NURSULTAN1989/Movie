@@ -19,8 +19,8 @@ class MovieListViewModel : ViewModel(), CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
 
-    private val _liveData = MutableLiveData<State>()
-    val liveData: LiveData<State>
+    private val _liveData = MutableLiveData<MovieList>()
+    val liveData: LiveData<MovieList>
         get() = _liveData
 
     private val _openDetail = MutableLiveData<Movie>()
@@ -42,7 +42,7 @@ class MovieListViewModel : ViewModel(), CoroutineScope {
         launch {
             val response = Common.getPostApi().getMoviesList()
             if (response.isSuccessful) {
-                _liveData.value = State.Result(response.body())
+                _liveData.value = response.body()
             }
 
         }
@@ -51,9 +51,5 @@ class MovieListViewModel : ViewModel(), CoroutineScope {
     override fun onCleared() {
         super.onCleared()
         job.cancel()
-    }
-
-    sealed class State {
-        data class Result(val list: MovieList?) : State()
     }
 }

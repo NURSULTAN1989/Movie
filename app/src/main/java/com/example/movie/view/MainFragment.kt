@@ -22,9 +22,6 @@ import com.example.movie.viewmodel.MovieListViewModel
 class MainFragment : Fragment() {
     lateinit var binding: FragmentMainBinding
     lateinit var adapter: MyMovieAdapter
-
-
-    lateinit var movie: MovieList
     private lateinit var viewModel: MovieListViewModel
 
     override fun onCreateView(
@@ -46,23 +43,17 @@ class MainFragment : Fragment() {
     private fun initAndObserveViewModel() {
         viewModel = ViewModelProvider(this)[MovieListViewModel::class.java]
         viewModel.liveData.observe(viewLifecycleOwner) {
-            when (it) {
-                is MovieListViewModel.State.Result -> {
-                    adapter = MyMovieAdapter(list = it.list?.results)
+                    adapter = MyMovieAdapter(list = it.results)
                     binding.recyclerView.adapter = adapter
-                }
-            }
+        }
+
+        viewModel.openDetail.observe(
+            viewLifecycleOwner
+        ) {
+            val action = MainFragmentDirections.actionMainFragmentToDetailFragment(it)
+            findNavController().navigate(action)
 
         }
-        viewModel.openDetail.observe(
-            viewLifecycleOwner,
-            {
-                val action = MainFragmentDirections.actionMainFragmentToDetailFragment(it)
-                findNavController().navigate(action)
-
-            }
-
-        )
 
     }
 
