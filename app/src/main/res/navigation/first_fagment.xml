@@ -20,7 +20,8 @@
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail" >
         <argument
-            android:name="movie"
-            app:argType="com.example.movie.model.Movie"/>
+            android:name="movieId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
 </navigation>
