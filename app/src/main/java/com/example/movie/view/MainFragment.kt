@@ -1,13 +1,5 @@
 package com.example.movie.view
 
-//import android.content.Intent
-//import android.util.Log
-//import androidx.recyclerview.widget.LinearLayoutManager
-//import androidx.recyclerview.widget.RecyclerView
-//import retrofit2.Call
-//import retrofit2.Callback
-//import retrofit2.Response
-//import kotlin.Result
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
