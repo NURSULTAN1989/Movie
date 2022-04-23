@@ -3,17 +3,16 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-parcelize'
     id 'androidx.navigation.safeargs.kotlin'
-    id 'kotlin-android'
     id 'kotlin-kapt'
 }
 
 android {
-    compileSdk 32
+    compileSdk 31
 
     defaultConfig {
         applicationId "com.example.movie"
         minSdk 28
-        targetSdk 32
+        targetSdk 31
         versionCode 1
         versionName "1.0"
 
@@ -36,7 +35,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    buildToolsVersion '30.0.0'
+    buildToolsVersion '30.0.3'
 }
 
 

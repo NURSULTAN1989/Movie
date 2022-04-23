@@ -24,8 +24,8 @@ class MovieListViewModel(private val context: Context): ViewModel(), CoroutineSc
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
 
-    private val _liveData = MutableLiveData<Movie>()
-    val liveData: LiveData<Movie>
+    private val _liveData = MutableLiveData<List<Movie>>()
+    val liveData: MutableLiveData<List<Movie>>
         get() = _liveData
 
     private val _openDetail = MutableLiveData<Event<Movie>>()
@@ -41,9 +41,7 @@ class MovieListViewModel(private val context: Context): ViewModel(), CoroutineSc
         launch {
             val list = withContext(Dispatchers.IO) {
                 try {
-
                     val response =Common.getPostApi().getMoviesList()
-
                     if (response.isSuccessful) {
                         val result = response.body()
                         if (result!=null) {
@@ -58,9 +56,9 @@ class MovieListViewModel(private val context: Context): ViewModel(), CoroutineSc
                 } catch (e: Exception) {
                     movieDao.getAll()
                 }
-
             }
-                _liveData.value= (list as Movie?)!!
+            _liveData.value= (list as List<Movie>?)!!
+
               /*  val response=Common.getPostApi().getMoviesList()
             if (response.isSuccessful){
                 _liveData.value=response.body()

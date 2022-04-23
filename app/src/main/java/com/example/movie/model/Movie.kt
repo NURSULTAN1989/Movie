@@ -2,8 +2,11 @@ package com.example.movie.model
 
 import android.os.Parcelable
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
+
+
 
 @Parcelize
 @Entity(tableName = "movie_table")
@@ -11,8 +14,8 @@ data class Movie(
     val adult: Boolean,
     @SerializedName("backdrop_path")
     val backdropPath: String,
-    @SerializedName("genre_ids")
-    val genreIds: List<Int>,
+    @PrimaryKey
+    @SerializedName("id")
     val id: Int,
     @SerializedName("original_language")
     val originalLanguage: String,
