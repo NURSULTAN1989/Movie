@@ -1,10 +1,12 @@
 package com.example.movie.model
 
 import android.os.Parcelable
+import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
+@Entity(tableName = "movie_table")
 data class Movie(
     val adult: Boolean,
     @SerializedName("backdrop_path")

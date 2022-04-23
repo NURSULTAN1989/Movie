@@ -8,7 +8,30 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object Common {
+
+    private val LOCK = Any()
+    private var apiService: RetrofitServices? = null
+    private var retrofit: Retrofit? = null
     private const val BASE_URL = "https://api.themoviedb.org/3/"
+
+    fun getInstance(): RetrofitServices {
+
+        apiService?.let { return it }
+
+        synchronized(LOCK) {
+
+            apiService?.let { return it }
+
+            val instance = Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(BASE_URL)
+                .client(getOkHttp())
+                .build()
+            retrofit = instance
+            apiService = instance.create(RetrofitServices::class.java)
+            return apiService as RetrofitServices
+        }
+    }
 
     fun getPostApi(): RetrofitServices {
         val retrofit = Retrofit.Builder()

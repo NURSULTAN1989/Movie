@@ -5,5 +5,5 @@
     app:startDestination="@+id/navigation_first_fragment">
 
     <include app:graph="@navigation/first_fagment" />
-    <include app:graph="@navigation/second_fragment" />
+    <include app:graph="@navigation/favorite_fragment" />
 </navigation>
