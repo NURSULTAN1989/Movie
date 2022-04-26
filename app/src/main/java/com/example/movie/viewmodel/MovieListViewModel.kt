@@ -1,7 +1,6 @@
 package com.example.movie.viewmodel
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,13 +10,13 @@ import com.example.movie.model.Movie
 import com.example.movie.model.MovieList
 import com.example.movie.view.MyMovieAdapter
 import com.example.retrofitexample.model.database.MovieDao
+import com.example.retrofitexample.model.database.MovieDatabase
 import kotlinx.coroutines.*
-import java.lang.Exception
 import kotlin.coroutines.CoroutineContext
 
 class MovieListViewModel(private val context: Context): ViewModel(), CoroutineScope {
 
-    private lateinit var movieDao:MovieDao
+    private val movieDao:MovieDao
     lateinit var movie: MovieList
     private val job: Job = Job()
 
@@ -35,6 +34,7 @@ class MovieListViewModel(private val context: Context): ViewModel(), CoroutineSc
 
     init {
         getAllMovieListCoroutine()
+        movieDao=MovieDatabase.getDatabase(context).postDao()
     }
 
     private fun getAllMovieListCoroutine() {
@@ -44,28 +44,20 @@ class MovieListViewModel(private val context: Context): ViewModel(), CoroutineSc
                     val response =Common.getPostApi().getMoviesList()
                     if (response.isSuccessful) {
                         val result = response.body()
-                        if (result!=null) {
+                        if (result != null) {
                             movieDao.insertAll(result.results)
                         }
-                        result
+                        result?.results
                     } else {
                         movieDao.getAll()
-
                     }
-
                 } catch (e: Exception) {
                     movieDao.getAll()
                 }
             }
-            _liveData.value= (list as List<Movie>?)!!
-
-              /*  val response=Common.getPostApi().getMoviesList()
-            if (response.isSuccessful){
-                _liveData.value=response.body()
-                Log.d("CORUTINE_ERROR","Есть ДАННЫе")
-            }else{
-                Log.d("CORUTINE_ERROR","НЕТ ДАННЫХ")
-            }*/
+            list?.let {
+                _liveData.value = it
+            }
 
         }
     }

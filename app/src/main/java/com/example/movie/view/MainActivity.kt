@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             when (destination.id) {
                 R.id.mainFragment,
-                R.id.second_fragment
+                R.id.favoriteFragment
                 -> {
                     binding.bottomNavigation.visibility = View.VISIBLE
                 }

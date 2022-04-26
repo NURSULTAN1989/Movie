@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.movie.databinding.FragmentMainBinding
-import com.example.movie.viewmodel.MovieListModelObserver
 import com.example.movie.viewmodel.MovieListViewModel
 import com.example.movie.viewmodel.ViewModelProviderFactory
 
@@ -16,7 +15,6 @@ class MainFragment : Fragment() {
     private lateinit var binding:FragmentMainBinding
     private lateinit var viewModel:MovieListViewModel
     private lateinit var adapter: MyMovieAdapter
-    private lateinit var viewModelObserver:MovieListModelObserver
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,30 +30,16 @@ class MainFragment : Fragment() {
     }
 
     private fun initAndObserveViewModel() {
+        binding.swipeRefresh.isRefreshing = true
         val viewModelProviderFactory = ViewModelProviderFactory(requireActivity())
         viewModel = ViewModelProvider(this, viewModelProviderFactory)[MovieListViewModel::class.java]
-        viewModelObserver = MovieListModelObserver(
-            context = requireActivity(),
-            viewModel = viewModel,
-            viewLifecycleOwner = this,
-            liveData = {
-                val movie=it
-                adapter = MyMovieAdapter(list = movie, viewModel.recyclerViewItemClickListener)
-                binding.recyclerView.adapter = adapter
-            },
-            openDetail = {
-                it.getContentIfNotHandled()?.let { movie ->
-                    val action = MainFragmentDirections.actionMainFragmentToDetailFragment(movie.id)
-                    findNavController().navigate(action)
-                }
-            }
-        )
-       /* viewModel.liveData.observe(
+        viewModel.liveData.observe(
             viewLifecycleOwner
         ) {
             val movie=it
             adapter = MyMovieAdapter(list = movie, viewModel.recyclerViewItemClickListener)
             binding.recyclerView.adapter = adapter
+            binding.swipeRefresh.isRefreshing = false
         }
 
         viewModel.openDetail.observe(
@@ -66,6 +50,6 @@ class MainFragment : Fragment() {
                 findNavController().navigate(action)
             }
 
-        }*/
+        }
     }
 }

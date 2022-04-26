@@ -70,7 +70,6 @@ interface RetrofitServices {
     ): Response<MovieVideos>
 
     companion object {
-
         private var SESSION_ID = ""
         private var API_KEY = "5f1af9c636cebf0ee04637b0a2c9f343"
         private var PARAMS_LANGUAGE = "ru"

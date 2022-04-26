@@ -2,11 +2,11 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/favorite_fragment"
-    app:startDestination="@id/favorite_fragment">
+    android:id="@+id/navigation_favorite_fragment"
+    app:startDestination="@id/favoriteFragment">
     <fragment
-        android:id="@+id/favorite_fragment"
+        android:id="@+id/favoriteFragment"
         android:name="com.example.movie.view.FavoriteFragment"
-        android:label="second_fragment"
+        android:label="favorite_fragment"
         tools:layout="@layout/favorite_fragment" />
 </navigation>
