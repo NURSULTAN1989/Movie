@@ -56,6 +56,14 @@ interface RetrofitServices {
         @Query("page") page: Int = PARAMS_PAGE
     ): Response<MovieList>
 
+    @GET("movie/{movie_id}/account_states")
+    suspend fun getFavoriteMovie(
+        @Path("movie_id") id: Int,
+        @Query("api_key") apiKey: String = API_KEY,
+        @Query("session_id") session_id: String = SESSION_ID,
+    ): Response<ChekFavorits>
+
+
     @HTTP(method = "DELETE", path = "authentication/session", hasBody = true)
     suspend fun deleteSession(
         @Query("api_key") apiKey: String = API_KEY,
