@@ -66,7 +66,6 @@ class LoginFragment: Fragment() {
             }
         }
     }
-
     private fun hideKeyboard(activity: Activity) {
             val inputMethodManager =
                 activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -83,7 +82,6 @@ class LoginFragment: Fragment() {
             )[LoginViewModel::class.java]
     }
     private fun observeLoadingState() {
-
                     viewModel.sessionId.observe(viewLifecycleOwner) {
                         sessionId = it
                         putDataIntoPref(sessionId)

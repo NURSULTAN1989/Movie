@@ -3,11 +3,9 @@ package com.example.movie.view
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
@@ -16,7 +14,6 @@ import com.example.movie.databinding.FragmentDetailBinding
 import com.example.movie.viewmodel.MovieDetailViewModel
 import com.example.movie.viewmodel.ViewModelProviderFactory
 import com.squareup.picasso.Picasso
-import java.lang.Exception
 
 
 class DetailFragment : Fragment() {
@@ -91,7 +88,6 @@ class DetailFragment : Fragment() {
     private fun onFavoriteClickListener() {
 
         binding.imageView3.setOnClickListener {
-
             if (binding.imageView3.tag == TAG_YELLOW) {
                 deleteFavorite(movieId, sessionId)
             } else {
@@ -112,6 +108,5 @@ class DetailFragment : Fragment() {
         private const val TAG_YELLOW = "yellow"
         private var movieId: Int = 0
         private var sessionId: String = ""
-        private var PAGE = 1
     }
 }
