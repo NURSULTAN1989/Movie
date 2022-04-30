@@ -12,7 +12,6 @@ class MyMovieAdapter(
     ):RecyclerView.Adapter<MyMovieAdapter.MovieViewHolder>(){
    class MovieViewHolder(var binding:ItemLayoutBinding):RecyclerView.ViewHolder(binding.root)
     private var listMovies = list
-   //lateinit var movieClick: MovieItemClick
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         return MovieViewHolder(ItemLayoutBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }

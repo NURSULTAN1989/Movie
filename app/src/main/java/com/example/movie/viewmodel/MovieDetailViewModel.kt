@@ -13,7 +13,7 @@ import com.example.retrofitexample.model.database.MovieDatabase
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
-class MovieDetailViewModel(private val context: Context):ViewModel(), CoroutineScope {
+class MovieDetailViewModel(context: Context):ViewModel(), CoroutineScope {
     private val movieDao: MovieDao
     private val job: Job = Job()
 
@@ -37,16 +37,16 @@ class MovieDetailViewModel(private val context: Context):ViewModel(), CoroutineS
 
     fun getMovieById(movieId: Int) {
         launch {
-            val movieFL = withContext(Dispatchers.IO) {
-                val result=movieDao.getMovieBiId(movieId)
-                result
-            }
-                _movie.value=movieFL
-
-            /*val response= Common.getPostApi().getById(movieId)
+            val response= Common.getPostApi().getById(movieId)
             if (response.isSuccessful){
                 _movie.value=response.body()
-            }*/
+            } else{
+                val movieFL = withContext(Dispatchers.IO) {
+                    val result=movieDao.getMovieBiId(movieId)
+                    result
+                }
+                _movie.value=movieFL
+            }
 
         }
 

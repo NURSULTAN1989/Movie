@@ -9,7 +9,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.movie.model.Common
 import com.example.movie.model.Event
 import com.example.movie.model.Movie
-import com.example.movie.view.LoadingState
 import com.example.movie.view.MyMovieAdapter
 import com.example.myfilms.data.models.Session
 import kotlinx.coroutines.launch
@@ -28,8 +27,6 @@ class ViewModelFavorites(application: Application) : AndroidViewModel(applicatio
         get() = _openDetail
 
     fun downloadData(session: String, page: Int) {
-
-        //у ViewModel есть встроенные корутины, их не нужно создавать отдельно
         viewModelScope.launch {
             val response = apiService.getFavorites(session_id = session, page = page)
             if (response.isSuccessful) {

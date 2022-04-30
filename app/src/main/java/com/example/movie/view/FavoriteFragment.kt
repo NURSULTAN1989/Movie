@@ -44,7 +44,6 @@ class FavoriteFragment : Fragment() {
         onBackPressed()
 
     }
-    //получить session id из SharedPreference
     private fun getSessionId() {
         try {
             sessionId = prefSettings.getString(LoginFragment.SESSION_ID_KEY, null) as String
@@ -52,20 +51,15 @@ class FavoriteFragment : Fragment() {
         }
     }
 
-    //создаем ViewModel и устанвливаем observe на наши LiveData
     private fun initAndObserveViewModel() {
-
-        //создаем ViewModel текущего фрагмента
         viewModel =
             ViewModelProvider(
                 this,
                 ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
             )[ViewModelFavorites::class.java]
 
-        //один раз прогружаем данные (это можно сделать внутри ViewModel через init(), но в моем случае так не получистя)
         viewModel.downloadData(sessionId, PAGE)
         binding.swipeRefresh.isRefreshing = true
-        //следим за loadingState внутри ViewModel
         viewModel.movies.observe(
             viewLifecycleOwner
         ) {

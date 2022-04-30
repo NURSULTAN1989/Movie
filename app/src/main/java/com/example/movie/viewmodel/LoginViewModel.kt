@@ -45,10 +45,4 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
-
-    fun deleteSession(session: String) {
-        viewModelScope.launch {
-            apiService.deleteSession(sessionId = Session(session_id = session))
-        }
-    }
 }

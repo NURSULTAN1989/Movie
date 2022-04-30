@@ -46,6 +46,7 @@ class DetailFragment : Fragment() {
         onFavoriteClickListener()
     }
     private fun getMovie(movieId: Int) {
+        binding.swipeRefresh.isRefreshing=true
         val viewModelProviderFactory = ViewModelProviderFactory(requireActivity())
         viewModel = ViewModelProvider(this, viewModelProviderFactory)[MovieDetailViewModel::class.java]
         viewModel.getMovieById(movieId)
@@ -54,15 +55,19 @@ class DetailFragment : Fragment() {
             imgActive()
             binding.name.text=it.title
             binding.about.text = it.overview
+            binding.swipeRefresh.isRefreshing=false
         }
     }
     private fun imgActive(){
+        binding.swipeRefresh.isRefreshing=true
         viewModel.composeFavorite(sessionId, movieId)
         viewModel.compose.observe(viewLifecycleOwner){
             if (it){
                 binding.imageView3.setImageResource(R.drawable.btn_star_big_on_pressed)
+                binding.swipeRefresh.isRefreshing=false
             }else {
                 binding.imageView3.setImageResource(R.drawable.btn_star_big_off_pressed)
+                binding.swipeRefresh.isRefreshing=false
             }
         }
     }
