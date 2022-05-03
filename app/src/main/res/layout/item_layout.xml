@@ -26,7 +26,6 @@
             android:id="@+id/txt_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="14sp"

@@ -23,7 +23,6 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         get() = _sessionId
 
     fun login(data: LoginApprove) {
-
         viewModelScope.launch {
             val responseGet = apiService.getToken()
             if (responseGet.isSuccessful) {
@@ -40,6 +39,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                         _sessionId.value = session.body()?.session_id
                     }
                 } else {
+                    _sessionId.value = ""
                     Toast.makeText(context, "Неверные данные", Toast.LENGTH_SHORT).show()
                 }
             }

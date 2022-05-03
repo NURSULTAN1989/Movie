@@ -4,11 +4,13 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.movie.model.Common
 import com.example.movie.model.Event
 import com.example.movie.model.Movie
 import com.example.movie.model.MovieList
 import com.example.movie.view.MyMovieAdapter
+import com.example.myfilms.data.models.Session
 import com.example.retrofitexample.model.database.MovieDao
 import com.example.retrofitexample.model.database.MovieDatabase
 import kotlinx.coroutines.*
@@ -58,14 +60,17 @@ class MovieListViewModel(context: Context): ViewModel(), CoroutineScope {
             list?.let {
                 _liveData.value = it
             }
-
         }
     }
     val recyclerViewItemClickListener = object : MyMovieAdapter.MovieItemClick {
         override fun movieItemClick(item: Movie) {
             _openDetail.value = Event(item)
         }
-
+    }
+    fun deleteSession(session: String) {
+        viewModelScope.launch {
+            Common.getPostApi().deleteSession(sessionId = Session(session_id = session))
+        }
     }
 
     override fun onCleared() {

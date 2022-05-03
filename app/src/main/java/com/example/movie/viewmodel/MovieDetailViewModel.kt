@@ -40,14 +40,14 @@ class MovieDetailViewModel(context: Context):ViewModel(), CoroutineScope {
             val response= Common.getPostApi().getById(movieId)
             if (response.isSuccessful){
                 _movie.value=response.body()
-            } else{
+            }
+            else{
                 val movieFL = withContext(Dispatchers.IO) {
                     val result=movieDao.getMovieBiId(movieId)
                     result
                 }
                 _movie.value=movieFL
             }
-
         }
 
     }

@@ -45,11 +45,6 @@ class LoginFragment: Fragment() {
         initViewModel()
         onLoginClick()
     }
-    companion object{
-        private var sessionId: String = ""
-        const val APP_SETTINGS = "Settings"
-        const val SESSION_ID_KEY = "SESSION_ID"
-    }
     private fun onLoginClick() {
         binding.logBtn.setOnClickListener {
             hideKeyboard(requireActivity())
@@ -83,11 +78,16 @@ class LoginFragment: Fragment() {
     }
     private fun observeLoadingState() {
                     viewModel.sessionId.observe(viewLifecycleOwner) {
-                        sessionId = it
-                        putDataIntoPref(sessionId)
                         try {
-                            findNavController().navigate(R.id.action_loginFragment_to_navigation_movies)
-                        } catch (e: Exception) {
+                            if (!it.isNullOrEmpty()){
+                                sessionId = it
+                                putDataIntoPref(sessionId)
+                                findNavController().navigate(R.id.action_loginFragment_to_navigation_movies)
+                            } /*else{
+                                Toast.makeText(requireContext(), "Не правильный логин или пароль", Toast.LENGTH_SHORT).show()
+                            }*/
+
+                            } catch (e: Exception) {
                         }
         }
     }
@@ -97,7 +97,9 @@ class LoginFragment: Fragment() {
         binding.login.text = null
         binding.password.text = null
     }
-
-
-
+    companion object{
+        private var sessionId: String = ""
+        const val APP_SETTINGS = "Settings"
+        const val SESSION_ID_KEY = "SESSION_ID"
+    }
 }

@@ -21,6 +21,7 @@ class FavoriteFragment : Fragment() {
 
     private lateinit var prefSettings: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
+
     override fun onCreate(savedInstanceState: Bundle?) {
         prefSettings = context?.getSharedPreferences(
             LoginFragment.APP_SETTINGS, Context.MODE_PRIVATE
@@ -42,7 +43,6 @@ class FavoriteFragment : Fragment() {
         getSessionId()
         initAndObserveViewModel()
         onBackPressed()
-
     }
     private fun getSessionId() {
         try {
