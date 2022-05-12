@@ -77,18 +77,13 @@ class LoginFragment: Fragment() {
             )[LoginViewModel::class.java]
     }
     private fun observeLoadingState() {
-                    viewModel.sessionId.observe(viewLifecycleOwner) {
-                        try {
-                            if (!it.isNullOrEmpty()){
-                                sessionId = it
-                                putDataIntoPref(sessionId)
-                                findNavController().navigate(R.id.action_loginFragment_to_navigation_movies)
-                            } /*else{
-                                Toast.makeText(requireContext(), "Не правильный логин или пароль", Toast.LENGTH_SHORT).show()
-                            }*/
-
-                            } catch (e: Exception) {
-                        }
+        viewModel.sessionId.observe(viewLifecycleOwner) {
+            sessionId = it
+            putDataIntoPref(sessionId)
+            try {
+                findNavController().navigate(R.id.action_loginFragment_to_navigation_movies)
+            } catch (e: Exception) {
+            }
         }
     }
     private fun putDataIntoPref(string: String) {

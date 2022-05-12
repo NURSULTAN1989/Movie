@@ -16,4 +16,5 @@
     </fragment>
     <include app:graph="@navigation/movies_nav" />
     <include app:graph="@navigation/favorite_nav" />
+    <include app:graph="@navigation/user_nav" />
 </navigation>
