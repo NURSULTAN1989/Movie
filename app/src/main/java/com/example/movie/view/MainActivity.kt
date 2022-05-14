@@ -26,17 +26,11 @@ class MainActivity : AppCompatActivity() {
     private fun initOnDestinationChangedListener() {
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             when (destination.id) {
-                R.id.mainFragment,
-                R.id.favoriteFragment,
-                -> {
-                    binding.bottomNavigation.visibility = View.VISIBLE
-                }
-                R.id.detailFragment,
-                R.id.loginFragment,
-                -> {
-                    binding.bottomNavigation.visibility = View.GONE
-
-                }
+                R.id.mainFragment -> binding.bottomNavigation.visibility = View.VISIBLE
+                R.id.favoriteFragment -> binding.bottomNavigation.visibility = View.VISIBLE
+                R.id.loginFragment -> binding.bottomNavigation.visibility = View.GONE
+                R.id.detailFragment -> binding.bottomNavigation.visibility = View.GONE
+                R.id.detailFragment2 -> binding.bottomNavigation.visibility = View.GONE
             }
         }
     }

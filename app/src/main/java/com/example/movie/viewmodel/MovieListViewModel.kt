@@ -16,7 +16,9 @@ import com.example.retrofitexample.model.database.MovieDatabase
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
-class MovieListViewModel(context: Context): ViewModel(), CoroutineScope {
+class MovieListViewModel(
+    context: Context
+): ViewModel(), CoroutineScope {
 
     private val movieDao:MovieDao
     lateinit var movie: MovieList

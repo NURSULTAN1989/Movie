@@ -5,8 +5,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.movie.model.Movie
+import com.example.movie.model.UserDB
 
-@Database(entities = [Movie::class], version = 1)
+@Database(entities = [Movie::class, UserDB::class], version = 2)
 abstract class MovieDatabase : RoomDatabase() {
 
     abstract fun postDao(): MovieDao
@@ -21,7 +22,9 @@ abstract class MovieDatabase : RoomDatabase() {
                     context.applicationContext,
                     MovieDatabase::class.java,
                     "app_database.db"
-                ).build()
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
             }
             return INSTANCE!!
         }

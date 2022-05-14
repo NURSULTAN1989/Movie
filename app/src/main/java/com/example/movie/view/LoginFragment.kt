@@ -43,6 +43,7 @@ class LoginFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
+        viewModel.deleteSession()
         onLoginClick()
     }
     private fun onLoginClick() {
@@ -78,12 +79,15 @@ class LoginFragment: Fragment() {
     }
     private fun observeLoadingState() {
         viewModel.sessionId.observe(viewLifecycleOwner) {
-            sessionId = it
-            putDataIntoPref(sessionId)
-            try {
-                findNavController().navigate(R.id.action_loginFragment_to_navigation_movies)
-            } catch (e: Exception) {
-            }
+            if(!it.isNullOrBlank()){
+                sessionId = it
+                putDataIntoPref(sessionId)
+                try {
+                    findNavController().navigate(R.id.action_loginFragment_to_navigation_movies)
+                } catch (e: Exception) {
+                }
+            } 
+
         }
     }
     private fun putDataIntoPref(string: String) {

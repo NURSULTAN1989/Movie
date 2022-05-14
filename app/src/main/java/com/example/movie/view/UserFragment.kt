@@ -1,7 +1,10 @@
 package com.example.movie.view
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,10 +14,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.movie.databinding.FragmentUserBinding
-import com.example.movie.viewmodel.MovieDetailViewModel
-import com.example.movie.viewmodel.UserViewModel
-import com.example.movie.viewmodel.ViewModelFavorites
-import com.example.movie.viewmodel.ViewModelProviderFactory
+import com.example.movie.model.UserDB
+import com.example.movie.viewmodel.*
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.squareup.picasso.Picasso
 
 class UserFragment:Fragment() {
@@ -44,22 +46,25 @@ class UserFragment:Fragment() {
         getSessionId()
         onLogoutPressed()
         getUser()
+        onEditClick()
     }
 
     private fun getUser(){
-        viewModel =
-            ViewModelProvider(
-                this,
-                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
-            )[UserViewModel::class.java]
+        val viewModelProviderFactory = ViewModelProviderFactory(requireActivity())
+        viewModel = ViewModelProvider(this, viewModelProviderFactory)[UserViewModel::class.java]
 
         viewModel.getUser(sessionId)
         binding.swipeRefresh.isRefreshing = true
         viewModel.user.observe(
             viewLifecycleOwner
         ) {
+            user_id=it.id
+            username=it.username
+            name=it.name
             binding.name.text = it.name
             binding.about.text = it.username
+            val uri = Uri.parse(it?.uri_img)
+            binding.imgUser.setImageURI(uri)
             binding.swipeRefresh.isRefreshing = false
         }
     }
@@ -69,6 +74,16 @@ class UserFragment:Fragment() {
         } catch (e: Exception) {
         }
     }
+    private fun onEditClick(){
+        binding.editBtn.setOnClickListener {
+            ImagePicker.with(this)
+                .crop()
+                .compress(1024)
+                .maxResultSize(1080,1080)
+                .start()
+        }
+    }
+
     private fun onLogoutPressed() {
         binding.logOut.setOnClickListener {
             viewModel.deleteSession(sessionId)
@@ -76,7 +91,26 @@ class UserFragment:Fragment() {
             findNavController().popBackStack()
         }
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(resultCode){
+            Activity.RESULT_OK -> {
+                val uri = data?.data
+                binding.imgUser.setImageURI(uri)
+                val stringUri = uri.toString()
+                viewModel.updateUser(user_id,stringUri)
+
+//                val stringUri = uri.toString()
+//                uri = Uri.parse(stringUri)
+            }
+        }
+    }
+
     companion object {
         private var sessionId: String = ""
+        private var user_id:Int=0
+        private  var name = ""
+        private var username = ""
     }
 }

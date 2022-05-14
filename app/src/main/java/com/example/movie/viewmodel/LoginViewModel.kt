@@ -17,9 +17,14 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     private val apiService = Common.getInstance()
 
 
-    private val _sessionId = MutableLiveData<String>()
-    val sessionId: LiveData<String>
+
+    private val _sessionId = MutableLiveData<String?>()
+    val sessionId: LiveData<String?>
         get() = _sessionId
+
+    fun deleteSession() {
+        _sessionId.value = null
+    }
 
     fun login(data: LoginApprove) {
 
