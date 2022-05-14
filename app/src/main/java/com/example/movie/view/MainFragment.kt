@@ -1,12 +1,9 @@
 package com.example.movie.view
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -19,9 +16,6 @@ class MainFragment : Fragment() {
     private lateinit var viewModel:MovieListViewModel
     private lateinit var adapter: MyMovieAdapter
 
-    private lateinit var prefSettings: SharedPreferences
-    private lateinit var editor: SharedPreferences.Editor
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -30,22 +24,12 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        prefSettings = context?.getSharedPreferences(
-            LoginFragment.APP_SETTINGS, Context.MODE_PRIVATE
-        ) as SharedPreferences
-        editor = prefSettings.edit()
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getSessionId()
         initAndObserveViewModel()
         binding.swipeRefresh.setOnRefreshListener {
             swipeRefresh()
         }
-        onBackPressed()
     }
     private fun swipeRefresh() {
         initAndObserveViewModel()
@@ -73,27 +57,5 @@ class MainFragment : Fragment() {
             }
 
         }
-    }
-    private fun getSessionId() {
-        try {
-            sessionId = prefSettings.getString(LoginFragment.SESSION_ID_KEY, null) as String
-        } catch (e: Exception) {
-        }
-    }
-    private fun onBackPressed() {
-        val callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                try {
-                    viewModel.deleteSession(sessionId)
-                    editor.clear().commit()
-                    findNavController().popBackStack()
-                } catch (e: Exception) {
-                }
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-    }
-    companion object{
-        private var sessionId: String = ""
     }
 }

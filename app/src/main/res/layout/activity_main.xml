@@ -20,29 +20,18 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
-        android:layout_width="320dp"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/white"
         app:itemIconTint="@drawable/selector_bottom_navigation"
         app:itemTextColor="@drawable/selector_bottom_navigation"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/button3"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_navigation_menu">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:text="@string/logout"
-        tools:layout_editor_absoluteX="318dp"
-        tools:layout_editor_absoluteY="671dp"
-        app:layout_constraintStart_toEndOf="@id/bottom_navigation"
-        app:layout_constraintTop_toBottomOf="@id/main_conteiner"
-        app:layout_constraintEnd_toEndOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
