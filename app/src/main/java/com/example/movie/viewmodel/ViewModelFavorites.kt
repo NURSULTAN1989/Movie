@@ -26,7 +26,7 @@ class ViewModelFavorites(application: Application) : AndroidViewModel(applicatio
     val openDetail: LiveData<Event<Movie>>
         get() = _openDetail
 
-    fun downloadData(session: String, page: Int) {
+    fun getFavoriteMovie(session: String, page: Int) {
         viewModelScope.launch {
             val response = apiService.getFavorites(session_id = session, page = page)
             if (response.isSuccessful) {

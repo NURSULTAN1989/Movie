@@ -21,7 +21,6 @@ class MovieListViewModel(
 ): ViewModel(), CoroutineScope {
 
     private val movieDao:MovieDao
-    lateinit var movie: MovieList
     private val job: Job = Job()
 
     override val coroutineContext: CoroutineContext
@@ -69,12 +68,6 @@ class MovieListViewModel(
             _openDetail.value = Event(item)
         }
     }
-    fun deleteSession(session: String) {
-        viewModelScope.launch {
-            Common.getPostApi().deleteSession(sessionId = Session(session_id = session))
-        }
-    }
-
     override fun onCleared() {
         super.onCleared()
         job.cancel()

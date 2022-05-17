@@ -58,7 +58,7 @@ class FavoriteFragment : Fragment() {
                 ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
             )[ViewModelFavorites::class.java]
 
-        viewModel.downloadData(sessionId, PAGE)
+        viewModel.getFavoriteMovie(sessionId, PAGE)
         binding.swipeRefresh.isRefreshing = true
         viewModel.movies.observe(
             viewLifecycleOwner
