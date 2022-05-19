@@ -42,7 +42,6 @@ class FavoriteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         getSessionId()
         initAndObserveViewModel()
-        onBackPressed()
     }
     private fun getSessionId() {
         try {
@@ -78,20 +77,6 @@ class FavoriteFragment : Fragment() {
             }
 
         }
-    }
-    private fun onBackPressed() {
-        val callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                try {
-                    viewModel.deleteSession(sessionId)
-                    editor.clear().commit()
-                    findNavController().popBackStack()
-                } catch (e: Exception) {
-                    findNavController().popBackStack()
-                }
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
     companion object {
 

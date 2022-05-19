@@ -1,30 +1,22 @@
 package com.example.movie.viewmodel
 
-import android.content.Context
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movie.model.Common
+import com.example.movie.MovieRepositoryImpl
 import com.example.movie.model.Event
 import com.example.movie.model.Movie
-import com.example.movie.model.MovieList
 import com.example.movie.view.MyMovieAdapter
-import com.example.myfilms.data.models.Session
 import com.example.retrofitexample.model.database.MovieDao
 import com.example.retrofitexample.model.database.MovieDatabase
-import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.launch
 
-class MovieListViewModel(
-    context: Context
-): ViewModel(), CoroutineScope {
-
+class MovieListViewModel(application: Application) : AndroidViewModel(application){
+    private val repository = MovieRepositoryImpl(application)
     private val movieDao:MovieDao
-    private val job: Job = Job()
 
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + job
 
     private val _liveData = MutableLiveData<List<Movie>>()
     val liveData: MutableLiveData<List<Movie>>
@@ -37,39 +29,15 @@ class MovieListViewModel(
 
     init {
         getAllMovieListCoroutine()
-        movieDao=MovieDatabase.getDatabase(context).postDao()
+        movieDao=MovieDatabase.getDatabase(application).postDao()
     }
 
     private fun getAllMovieListCoroutine() {
-        launch {
-            val list = withContext(Dispatchers.IO) {
-                try {
-                    val response =Common.getPostApi().getMoviesList()
-                    if (response.isSuccessful) {
-                        val result = response.body()
-                        if (result != null) {
-                            movieDao.insertAll(result.results)
-                        }
-                        result?.results
-                    } else {
-                        movieDao.getAll()
-                    }
-                } catch (e: Exception) {
-                    movieDao.getAll()
-                }
-            }
-            list?.let {
-                _liveData.value = it
-            }
-        }
+        viewModelScope.launch {  _liveData.value = repository.getAllMoviesList() }
     }
     val recyclerViewItemClickListener = object : MyMovieAdapter.MovieItemClick {
         override fun movieItemClick(item: Movie) {
             _openDetail.value = Event(item)
         }
-    }
-    override fun onCleared() {
-        super.onCleared()
-        job.cancel()
     }
 }

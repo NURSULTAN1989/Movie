@@ -1,22 +1,19 @@
 package com.example.movie.viewmodel
 
 import android.app.Application
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.movie.model.Common
+import com.example.movie.MovieRepositoryImpl
 import com.example.movie.model.Event
 import com.example.movie.model.Movie
 import com.example.movie.view.MyMovieAdapter
-import com.example.myfilms.data.models.Session
 import kotlinx.coroutines.launch
 
 class ViewModelFavorites(application: Application) : AndroidViewModel(application) {
 
-    private val context = application
-    private val apiService = Common.getInstance()
+    private val repository = MovieRepositoryImpl(application)
 
     private val _movies = MutableLiveData<List<Movie>>()
     val movies: LiveData<List<Movie>>
@@ -28,28 +25,12 @@ class ViewModelFavorites(application: Application) : AndroidViewModel(applicatio
 
     fun getFavoriteMovie(session: String, page: Int) {
         viewModelScope.launch {
-            val response = apiService.getFavorites(session_id = session, page = page)
-            if (response.isSuccessful) {
-                _movies.value = response.body()?.results
-            } else {
-                Toast.makeText(
-                    context,
-                    "Требуется авторизация",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+            _movies.value = repository.getFavorite(session, page)
         }
     }
     val recyclerViewItemClickListener = object : MyMovieAdapter.MovieItemClick {
         override fun movieItemClick(item: Movie) {
             _openDetail.value = Event(item)
-        }
-
-    }
-
-    fun deleteSession(session: String) {
-        viewModelScope.launch {
-            apiService.deleteSession(sessionId = Session(session_id = session))
         }
     }
 }

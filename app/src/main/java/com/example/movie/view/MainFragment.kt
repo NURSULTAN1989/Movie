@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.movie.databinding.FragmentMainBinding
 import com.example.movie.viewmodel.MovieListViewModel
-import com.example.movie.viewmodel.ViewModelProviderFactory
 
 class MainFragment : Fragment() {
     private lateinit var binding:FragmentMainBinding
@@ -37,13 +36,17 @@ class MainFragment : Fragment() {
 
     private fun initAndObserveViewModel() {
         binding.swipeRefresh.isRefreshing = true
-        val viewModelProviderFactory = ViewModelProviderFactory(requireActivity())
-        viewModel = ViewModelProvider(this, viewModelProviderFactory)[MovieListViewModel::class.java]
+
+        viewModel =
+            ViewModelProvider(
+                this,
+                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+            )[MovieListViewModel::class.java]
+
         viewModel.liveData.observe(
             viewLifecycleOwner
         ) {
-            val movie=it
-            adapter = MyMovieAdapter(list = movie, viewModel.recyclerViewItemClickListener)
+            adapter = MyMovieAdapter(list = it, viewModel.recyclerViewItemClickListener)
             binding.recyclerView.adapter = adapter
             binding.swipeRefresh.isRefreshing = false
         }

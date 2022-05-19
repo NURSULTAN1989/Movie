@@ -50,8 +50,11 @@ class UserFragment:Fragment() {
     }
 
     private fun getUser(){
-        val viewModelProviderFactory = ViewModelProviderFactory(requireActivity())
-        viewModel = ViewModelProvider(this, viewModelProviderFactory)[UserViewModel::class.java]
+        viewModel =
+            ViewModelProvider(
+                this,
+                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+            )[UserViewModel::class.java]
 
         viewModel.getUser(sessionId)
         binding.swipeRefresh.isRefreshing = true

@@ -1,24 +1,16 @@
 package com.example.movie.viewmodel
 
-import android.content.Context
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movie.model.Common
+import com.example.movie.MovieRepositoryImpl
 import com.example.movie.model.Movie
-import com.example.myfilms.data.models.PostMovie
-import com.example.retrofitexample.model.database.MovieDao
-import com.example.retrofitexample.model.database.MovieDatabase
-import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.launch
 
-class MovieDetailViewModel(context: Context):ViewModel(), CoroutineScope {
-    private val movieDao: MovieDao
-    private val job: Job = Job()
-
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + job
+class MovieDetailViewModel(application: Application) : AndroidViewModel(application){
+    private val repository = MovieRepositoryImpl(application)
 
     private val _movie = MutableLiveData<Movie>()
     val movie: LiveData<Movie>
@@ -31,67 +23,25 @@ class MovieDetailViewModel(context: Context):ViewModel(), CoroutineScope {
     val compose: LiveData<Boolean>
         get() = _compose
 
-    init {
-        movieDao= MovieDatabase.getDatabase(context).postDao()
-    }
-
     fun getMovieById(movieId: Int) {
-        launch {
-            val response= Common.getPostApi().getById(movieId)
-            if (response.isSuccessful){
-                _movie.value=response.body()
-            }
-            else{
-                val movieFL = withContext(Dispatchers.IO) {
-                    val result=movieDao.getMovieBiId(movieId)
-                    result
-                }
-                _movie.value=movieFL
-            }
+        viewModelScope.launch {
+            _movie.value = repository.getMovieBiId(movieId)
         }
-
     }
     fun composeFavorite(session: String, id: Int){
         viewModelScope.launch {
-            val response = Common.getInstance().getFavoriteMovie(session_id = session, id=id)
-            if (response.isSuccessful) {
-                if (response.body()?.favorite==true){
-                    _compose.value = true
-                }else{
-                    _compose.value=false
-                }
-            }
-
-
+            _compose.value = repository.composeFavorite(session, id)
         }
 
     }
     fun addFavorite(movieId: Int, sessionId: String) {
         viewModelScope.launch {
-            val postMovie = PostMovie(media_id = movieId, favorite = true)
-            val response = Common.getPostApi().addFavorite(
-                session_id = sessionId,
-                postMovie = postMovie
-            )
-            if (response.isSuccessful) {
-                _addFavoriteState.value = true
-            } else {
-                _addFavoriteState.value = false
-            }
+            _addFavoriteState.value = repository.addFavorite(movieId, sessionId)
         }
     }
     fun deleteFavorites(movieId: Int, sessionId: String) {
         viewModelScope.launch {
-            val postMovie = PostMovie(media_id = movieId, favorite = false)
-            val response = Common.getPostApi().addFavorite(
-                session_id = sessionId,
-                postMovie = postMovie
-            )
-            if (response.isSuccessful) {
-                _addFavoriteState.value = true
-            } else {
-                _addFavoriteState.value = false
-            }
+            _addFavoriteState.value = repository.deleteFavorites(movieId, sessionId)
         }
     }
 }

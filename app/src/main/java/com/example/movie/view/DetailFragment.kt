@@ -12,7 +12,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.movie.R
 import com.example.movie.databinding.FragmentDetailBinding
 import com.example.movie.viewmodel.MovieDetailViewModel
-import com.example.movie.viewmodel.ViewModelProviderFactory
+import com.example.movie.viewmodel.MovieListViewModel
 import com.squareup.picasso.Picasso
 
 
@@ -47,8 +47,11 @@ class DetailFragment : Fragment() {
     }
     private fun getMovie(movieId: Int) {
         binding.swipeRefresh.isRefreshing=true
-        val viewModelProviderFactory = ViewModelProviderFactory(requireActivity())
-        viewModel = ViewModelProvider(this, viewModelProviderFactory)[MovieDetailViewModel::class.java]
+        viewModel =
+            ViewModelProvider(
+                this,
+                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+            )[MovieDetailViewModel::class.java]
         viewModel.getMovieById(movieId)
         viewModel.movie.observe(viewLifecycleOwner) {
             Picasso.get().load(IMAGE_URL + it.posterPath).into(binding.imageView2)
