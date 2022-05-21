@@ -1,6 +1,5 @@
 package com.example.movie.view
 
-import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +11,7 @@ import com.example.movie.R
 import com.example.movie.databinding.FragmentDetailBinding
 import com.example.movie.viewmodel.MovieDetailViewModel
 import com.squareup.picasso.Picasso
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -19,14 +19,7 @@ class DetailFragment : Fragment() {
     private  lateinit var binding: FragmentDetailBinding
     private val args: DetailFragmentArgs by navArgs()
     private val viewModel by viewModel<MovieDetailViewModel>()
-    private lateinit var prefSettings: SharedPreferences
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        prefSettings = context?.getSharedPreferences(
-            LoginFragment.APP_SETTINGS, Context.MODE_PRIVATE
-        ) as SharedPreferences
-    }
+    private val prefSettings: SharedPreferences by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -93,7 +86,6 @@ class DetailFragment : Fragment() {
         }
     }
     private fun onFavoriteClickListener() {
-
         binding.imageView3.setOnClickListener {
             if (binding.imageView3.tag == TAG_YELLOW) {
                 deleteFavorite(movieId, sessionId)

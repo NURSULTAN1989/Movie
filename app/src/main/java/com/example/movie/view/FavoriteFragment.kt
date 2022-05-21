@@ -1,6 +1,5 @@
 package com.example.movie.view
 
-import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.movie.databinding.FavoriteFragmentBinding
 import com.example.movie.viewmodel.ViewModelFavorites
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -17,16 +17,7 @@ class FavoriteFragment : Fragment() {
     private lateinit var binding: FavoriteFragmentBinding
     private val viewModel by viewModel<ViewModelFavorites>()
     private lateinit var adapter: MyMovieAdapter
-    private lateinit var prefSettings: SharedPreferences
-    private lateinit var editor: SharedPreferences.Editor
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        prefSettings = context?.getSharedPreferences(
-            LoginFragment.APP_SETTINGS, Context.MODE_PRIVATE
-        ) as SharedPreferences
-        editor = prefSettings.edit()
-        super.onCreate(savedInstanceState)
-    }
+    private val prefSettings: SharedPreferences by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

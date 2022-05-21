@@ -14,22 +14,16 @@ import androidx.navigation.fragment.findNavController
 import com.example.movie.databinding.FragmentUserBinding
 import com.example.movie.viewmodel.UserViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UserFragment:Fragment() {
     private lateinit var binding: FragmentUserBinding
     private val viewModel by viewModel<UserViewModel>()
 
-    private lateinit var prefSettings: SharedPreferences
-    private lateinit var editor: SharedPreferences.Editor
+    private val prefSettings: SharedPreferences by inject()
+    private val editor: SharedPreferences.Editor by inject()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        prefSettings = context?.getSharedPreferences(
-            LoginFragment.APP_SETTINGS, Context.MODE_PRIVATE
-        ) as SharedPreferences
-        editor = prefSettings.edit()
-        super.onCreate(savedInstanceState)
-    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -100,9 +94,6 @@ class UserFragment:Fragment() {
                 binding.imgUser.setImageURI(uri)
                 val stringUri = uri.toString()
                 viewModel.updateUser(user_id,stringUri)
-
-//                val stringUri = uri.toString()
-//                uri = Uri.parse(stringUri)
             }
         }
     }
