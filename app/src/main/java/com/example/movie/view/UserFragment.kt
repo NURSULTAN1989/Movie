@@ -9,19 +9,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.movie.databinding.FragmentUserBinding
-import com.example.movie.model.UserDB
-import com.example.movie.viewmodel.*
+import com.example.movie.viewmodel.UserViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
-import com.squareup.picasso.Picasso
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UserFragment:Fragment() {
     private lateinit var binding: FragmentUserBinding
-    private lateinit var viewModel: UserViewModel
+    private val viewModel by viewModel<UserViewModel>()
 
     private lateinit var prefSettings: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
@@ -50,11 +47,11 @@ class UserFragment:Fragment() {
     }
 
     private fun getUser(){
-        viewModel =
-            ViewModelProvider(
-                this,
-                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
-            )[UserViewModel::class.java]
+//        viewModel =
+//            ViewModelProvider(
+//                this,
+//                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+//            )[UserViewModel::class.java]
 
         viewModel.getUser(sessionId)
         binding.swipeRefresh.isRefreshing = true

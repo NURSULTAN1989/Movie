@@ -11,9 +11,9 @@ import com.example.movie.model.Movie
 import com.example.movie.view.MyMovieAdapter
 import kotlinx.coroutines.launch
 
-class ViewModelFavorites(application: Application) : AndroidViewModel(application) {
+class ViewModelFavorites(application: Application, private val repository: MovieRepositoryImpl) : AndroidViewModel(application) {
 
-    private val repository = MovieRepositoryImpl(application)
+//    private val repository = MovieRepositoryImpl(application)
 
     private val _movies = MutableLiveData<List<Movie>>()
     val movies: LiveData<List<Movie>>

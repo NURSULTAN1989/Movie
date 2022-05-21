@@ -10,27 +10,20 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.movie.R
 import com.example.movie.databinding.FragmentLoginBinding
 import com.example.movie.viewmodel.LoginViewModel
 import com.example.myfilms.data.models.LoginApprove
-import java.lang.Exception
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment: Fragment() {
     private  lateinit var binding: FragmentLoginBinding
-    private lateinit var prefSettings: SharedPreferences
-    private lateinit var editor: SharedPreferences.Editor
+    private val editor: SharedPreferences.Editor by inject()
 
-    private lateinit var viewModel: LoginViewModel
+    private val viewModel by viewModel<LoginViewModel>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        prefSettings =
-            context?.getSharedPreferences(APP_SETTINGS, Context.MODE_PRIVATE) as SharedPreferences
-        editor = prefSettings.edit()
-        super.onCreate(savedInstanceState)
-    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -71,11 +64,11 @@ class LoginFragment: Fragment() {
             )
     }
     private fun initViewModel() {
-        viewModel =
-            ViewModelProvider(
-                this,
-                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
-            )[LoginViewModel::class.java]
+//        viewModel =
+//            ViewModelProvider(
+//                this,
+//                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+//            )[LoginViewModel::class.java]
     }
     private fun observeLoadingState() {
         viewModel.sessionId.observe(viewLifecycleOwner) {

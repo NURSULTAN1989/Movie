@@ -5,14 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.movie.databinding.FragmentMainBinding
 import com.example.movie.viewmodel.MovieListViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainFragment : Fragment() {
     private lateinit var binding:FragmentMainBinding
-    private lateinit var viewModel:MovieListViewModel
+    private val viewModel by viewModel<MovieListViewModel>()
     private lateinit var adapter: MyMovieAdapter
 
     override fun onCreateView(
@@ -37,11 +37,11 @@ class MainFragment : Fragment() {
     private fun initAndObserveViewModel() {
         binding.swipeRefresh.isRefreshing = true
 
-        viewModel =
-            ViewModelProvider(
-                this,
-                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
-            )[MovieListViewModel::class.java]
+//        viewModel =
+//            ViewModelProvider(
+//                this,
+//                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+//            )[MovieListViewModel::class.java]
 
         viewModel.liveData.observe(
             viewLifecycleOwner

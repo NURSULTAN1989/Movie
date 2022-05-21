@@ -82,4 +82,8 @@ dependencies {
 
     //image picker (camera and gallery)
     implementation 'com.github.dhaval2404:imagepicker:2.1'
+
+    //koin
+    implementation "io.insert-koin:koin-core:3.2.0"
+    implementation "io.insert-koin:koin-android:3.2.0"
 }

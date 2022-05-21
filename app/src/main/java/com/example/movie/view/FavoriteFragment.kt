@@ -6,19 +6,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.movie.databinding.FavoriteFragmentBinding
 import com.example.movie.viewmodel.ViewModelFavorites
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class FavoriteFragment : Fragment() {
     private lateinit var binding: FavoriteFragmentBinding
-    private lateinit var viewModel: ViewModelFavorites
+    private val viewModel by viewModel<ViewModelFavorites>()
     private lateinit var adapter: MyMovieAdapter
-
     private lateinit var prefSettings: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
 
@@ -51,11 +49,11 @@ class FavoriteFragment : Fragment() {
     }
 
     private fun initAndObserveViewModel() {
-        viewModel =
-            ViewModelProvider(
-                this,
-                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
-            )[ViewModelFavorites::class.java]
+//        viewModel =
+//            ViewModelProvider(
+//                this,
+//                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+//            )[ViewModelFavorites::class.java]
 
         viewModel.getFavoriteMovie(sessionId, PAGE)
         binding.swipeRefresh.isRefreshing = true
@@ -75,11 +73,9 @@ class FavoriteFragment : Fragment() {
                 val action = FavoriteFragmentDirections.actionFavoriteFragmentToDetailFragment22(movie.id)
                 findNavController().navigate(action)
             }
-
         }
     }
     companion object {
-
         private var sessionId: String = ""
         private var PAGE = 1
     }

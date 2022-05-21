@@ -13,8 +13,8 @@ import com.example.retrofitexample.model.database.MovieDao
 import com.example.retrofitexample.model.database.MovieDatabase
 import kotlinx.coroutines.launch
 
-class MovieListViewModel(application: Application) : AndroidViewModel(application){
-    private val repository = MovieRepositoryImpl(application)
+class MovieListViewModel(application: Application, private val repository: MovieRepositoryImpl) : AndroidViewModel(application){
+//    private val repository = MovieRepositoryImpl(application)
     private val movieDao:MovieDao
 
 

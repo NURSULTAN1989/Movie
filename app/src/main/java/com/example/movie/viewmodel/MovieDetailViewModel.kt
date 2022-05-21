@@ -9,8 +9,8 @@ import com.example.movie.MovieRepositoryImpl
 import com.example.movie.model.Movie
 import kotlinx.coroutines.launch
 
-class MovieDetailViewModel(application: Application) : AndroidViewModel(application){
-    private val repository = MovieRepositoryImpl(application)
+class MovieDetailViewModel(application: Application, private val repository: MovieRepositoryImpl) : AndroidViewModel(application){
+//    private val repository = MovieRepositoryImpl(application)
 
     private val _movie = MutableLiveData<Movie>()
     val movie: LiveData<Movie>

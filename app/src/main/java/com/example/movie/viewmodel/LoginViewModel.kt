@@ -10,10 +10,9 @@ import com.example.movie.MovieRepositoryImpl
 import com.example.myfilms.data.models.LoginApprove
 import kotlinx.coroutines.launch
 
-class LoginViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository = MovieRepositoryImpl(application)
+class LoginViewModel(application: Application, private val repository: MovieRepositoryImpl) : AndroidViewModel(application) {
+//    private val repository = MovieRepositoryImpl(application)
     private val context = application
-
 
 
     private val _sessionId = MutableLiveData<String?>()

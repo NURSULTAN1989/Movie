@@ -10,10 +10,10 @@ import com.example.movie.MovieRepositoryImpl
 import com.example.movie.model.UserDB
 import kotlinx.coroutines.launch
 
-class UserViewModel(application: Application) : AndroidViewModel(application) {
+class UserViewModel(application: Application, private val repository: MovieRepositoryImpl) : AndroidViewModel(application) {
 
     private val context = application
-    private val repository = MovieRepositoryImpl(application)
+//    private val repository = MovieRepositoryImpl(application)
 
     private val _user = MutableLiveData<UserDB>()
     val user: LiveData<UserDB>

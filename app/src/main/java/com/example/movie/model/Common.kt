@@ -8,7 +8,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object Common {
-
     private val LOCK = Any()
     private var apiService: RetrofitServices? = null
     private var retrofit: Retrofit? = null

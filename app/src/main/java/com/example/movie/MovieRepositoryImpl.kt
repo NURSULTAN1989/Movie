@@ -1,30 +1,31 @@
 package com.example.movie
 
-import android.app.Application
-import android.content.Context
-import android.widget.Toast
-import androidx.lifecycle.LiveData
-import com.example.movie.model.*
+import com.example.movie.model.Common
+import com.example.movie.model.Movie
+import com.example.movie.model.User
+import com.example.movie.model.UserDB
 import com.example.myfilms.data.models.LoginApprove
 import com.example.myfilms.data.models.PostMovie
 import com.example.myfilms.data.models.Session
 import com.example.myfilms.data.models.Token
 import com.example.retrofitexample.model.database.MovieDao
-import com.example.retrofitexample.model.database.MovieDatabase
-import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-class MovieRepositoryImpl(application: Application) {
-    private val movieDao: MovieDao = MovieDatabase.getDatabase(application).postDao()
+class MovieRepositoryImpl(
+    private val movieDao: MovieDao,
+    private val api:Common
+) {
+//    private val movieDao: MovieDao = MovieDatabase.getDatabase(application).postDao()
     private var movieList: List<Movie>? = null
     private var movie: Movie? = null
-    private val apiService = Common.getPostApi()
-    private val userDao = MovieDatabase.getDatabase(application).postDao()
+ //   private val apiService = Common.getPostApi()
+ //   private val userDao = MovieDatabase.getDatabase(application).postDao()
 
     suspend fun getAllMoviesList(): List<Movie> {
             movieList = withContext(Dispatchers.IO) {
                 try {
-                    val response = apiService.getMoviesList()
+                    val response = api.getPostApi().getMoviesList()
                     if (response.isSuccessful) {
                         val result = response.body()
                         if (result != null) {
@@ -44,7 +45,7 @@ class MovieRepositoryImpl(application: Application) {
 
 
     suspend fun getMovieBiId(movieId: Int): Movie {
-            val response = apiService.getById(movieId)
+            val response = api.getPostApi().getById(movieId)
             if (response.isSuccessful) {
                 movie = response.body()!!
             } else {
@@ -69,7 +70,7 @@ class MovieRepositoryImpl(application: Application) {
    suspend fun addFavorite(movieId: Int, sessionId: String): Boolean {
        var favorite =false
         val postMovie = PostMovie(media_id = movieId, favorite = true)
-        val response = apiService.addFavorite(
+        val response = api.getPostApi().addFavorite(
             session_id = sessionId,
             postMovie = postMovie
         )
@@ -92,7 +93,7 @@ class MovieRepositoryImpl(application: Application) {
     }
 
     suspend fun getFavorite(session: String, page: Int): List<Movie> {
-            val response = apiService.getFavorites(session_id = session, page = page)
+            val response = api.getPostApi().getFavorites(session_id = session, page = page)
             if (response.isSuccessful) {
                 movieList = response.body()?.results!!
             }
@@ -101,17 +102,17 @@ class MovieRepositoryImpl(application: Application) {
 
     suspend fun login(data: LoginApprove): String {
         var session:String = ""
-        val responseGet = apiService.getToken()
+        val responseGet = api.getPostApi().getToken()
         if (responseGet.isSuccessful) {
             val loginApprove = LoginApprove(
                 username = data.username,
                 password = data.password,
                 request_token = responseGet.body()?.request_token as String
             )
-            val responseApprove = apiService.approveToken(loginApprove = loginApprove)
+            val responseApprove = api.getPostApi().approveToken(loginApprove = loginApprove)
             if (responseApprove.isSuccessful) {
                 val response =
-                    apiService.createSession(token = responseApprove.body() as Token)
+                    api.getPostApi().createSession(token = responseApprove.body() as Token)
                 if (response.isSuccessful) {
                     session = response.body()?.session_id as String
                 }
@@ -123,15 +124,15 @@ class MovieRepositoryImpl(application: Application) {
     suspend fun getUser(session: String): UserDB {
         var userDB:UserDB? = null
         withContext(Dispatchers.IO) {
-                val response = apiService.getAccount(session_id = session)
+                val response = api.getPostApi().getAccount(session_id = session)
                 if (response.isSuccessful) {
                     val result = response.body() as User
-                    val resultDB = userDao.getUser(result.id)
+                    val resultDB = movieDao.getUser(result.id)
                     if (resultDB != null) {
                         userDB = resultDB
                     } else {
                         userDB = UserDB(result.id, result.name, result.username, "")
-                        userDao.insertUser(userDB as UserDB)
+                        movieDao.insertUser(userDB as UserDB)
                     }
                 }
         }
@@ -141,13 +142,13 @@ class MovieRepositoryImpl(application: Application) {
     suspend fun updateUser(id: Int, uri: String): UserDB {
         var userDB:UserDB? = null
         withContext(Dispatchers.IO) {
-            userDao.updateUser(id, uri)
-            userDB = userDao.getUser(id)
+            movieDao.updateUser(id, uri)
+            userDB = movieDao.getUser(id)
         }
         return userDB as UserDB
     }
 
     suspend fun deleteSession(session: String) {
-        apiService.deleteSession(sessionId = Session(session_id = session))
+        api.getPostApi().deleteSession(sessionId = Session(session_id = session))
     }
 }

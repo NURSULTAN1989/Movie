@@ -7,19 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.example.movie.R
 import com.example.movie.databinding.FragmentDetailBinding
 import com.example.movie.viewmodel.MovieDetailViewModel
-import com.example.movie.viewmodel.MovieListViewModel
 import com.squareup.picasso.Picasso
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class DetailFragment : Fragment() {
     private  lateinit var binding: FragmentDetailBinding
     private val args: DetailFragmentArgs by navArgs()
-    private lateinit var viewModel: MovieDetailViewModel
+    private val viewModel by viewModel<MovieDetailViewModel>()
     private lateinit var prefSettings: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,11 +46,11 @@ class DetailFragment : Fragment() {
     }
     private fun getMovie(movieId: Int) {
         binding.swipeRefresh.isRefreshing=true
-        viewModel =
-            ViewModelProvider(
-                this,
-                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
-            )[MovieDetailViewModel::class.java]
+//        viewModel =
+//            ViewModelProvider(
+//                this,
+//                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+//            )[MovieDetailViewModel::class.java]
         viewModel.getMovieById(movieId)
         viewModel.movie.observe(viewLifecycleOwner) {
             Picasso.get().load(IMAGE_URL + it.posterPath).into(binding.imageView2)
