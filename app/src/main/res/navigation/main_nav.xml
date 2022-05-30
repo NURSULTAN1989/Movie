@@ -7,12 +7,14 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.movie.view.LoginFragment"
+        android:name="com.example.movie.presentation.view.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_navigation_movies"
-            app:destination="@id/navigation_movies" />
+            app:destination="@id/navigation_movies"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <include app:graph="@navigation/movies_nav" />
     <include app:graph="@navigation/favorite_nav" />

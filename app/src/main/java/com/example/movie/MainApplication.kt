@@ -12,8 +12,7 @@ class MainApplication : Application() {
 
         startKoin {
             androidContext(this@MainApplication)
-            modules(networkModule, daoModule, repositoryModule, viewModelModule, sharedPreferencesModule)
+            modules(listMod)
         }
     }
-
 }
