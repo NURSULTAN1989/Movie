@@ -31,22 +31,22 @@ class LoginViewModel(application: Application, private val logUseCase: LoginUseC
     }
 
     fun login(data: LoginApprove) {
-        logUseCase.invoke(viewModelScope,data, null, object : UseCaseResponse<String> {
-            override fun onSuccess(result: String) {
-                _sessionId.value = result
-            }
-
-            override fun onError(apiError: ApiError?) {
-                Toast.makeText(context, "Неверные данные", Toast.LENGTH_SHORT).show()
-            }
-        })
-//        viewModelScope.launch {
-//            val sessionId = logUseCase.login(data)
-//            if (sessionId.isNotBlank()){
-//                _sessionId.value = sessionId
-//            }else {
-//                   Toast.makeText(context, "Неверные данные", Toast.LENGTH_SHORT).show()
+//        logUseCase.invoke(viewModelScope,data, null, object : UseCaseResponse<String> {
+//            override fun onSuccess(result: String) {
+//                _sessionId.value = result
 //            }
-//        }
+//
+//            override fun onError(apiError: ApiError?) {
+//                Toast.makeText(context, "Неверные данные", Toast.LENGTH_SHORT).show()
+//            }
+//        })
+        viewModelScope.launch {
+            val sessionId = logUseCase.login(data)
+            if (sessionId.isNotBlank()){
+                _sessionId.value = sessionId
+            }else {
+                   Toast.makeText(context, "Неверные данные", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

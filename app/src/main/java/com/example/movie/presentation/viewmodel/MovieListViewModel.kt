@@ -39,16 +39,16 @@ class MovieListViewModel(application: Application, private val getMovieList: Get
     }
 
     private fun getAllMovieListCoroutine() {
-            getMovieList.invoke(viewModelScope,null, null, object : UseCaseResponse<List<Movie>> {
-                override fun onSuccess(result: List<Movie>) {
-                    _liveData.value =result
-                }
-
-                override fun onError(apiError: ApiError?) {
-                    _showError.value = apiError!!
-                }
-            })
-//        viewModelScope.launch {  _liveData.value = getMovieList.getAllMoviesList() }
+//            getMovieList.invoke(viewModelScope,null, null, object : UseCaseResponse<List<Movie>> {
+//                override fun onSuccess(result: List<Movie>) {
+//                    _liveData.value =result
+//                }
+//
+//                override fun onError(apiError: ApiError?) {
+//                    _showError.value = apiError!!
+//                }
+//            })
+        viewModelScope.launch {  _liveData.value = getMovieList.getAllMoviesList() }
     }
     val recyclerViewItemClickListener = object : MyMovieAdapter.MovieItemClick {
         override fun movieItemClick(item: Movie) {

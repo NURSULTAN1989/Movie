@@ -39,25 +39,25 @@ class MainFragment : Fragment() {
 
     private fun initAndObserveViewModel() {
         binding.swipeRefresh.isRefreshing = true
-        viewModelObserver = MovieListViewModelObserver(
-            viewModel = viewModel,
-            viewLifecycleOwner = this,
-            liveData = {
-                adapter = MyMovieAdapter(list = it, viewModel.recyclerViewItemClickListener)
-                binding.recyclerView.adapter = adapter
-                binding.swipeRefresh.isRefreshing = false
-            },
-            openDetail = {
-                it.getContentIfNotHandled()?.let { movie ->
-                    val action = MainFragmentDirections.actionMainFragmentToDetailFragment(movie.id)
-                    findNavController().navigate(action)
-                }
-            },
-            showError = {
-                binding.tvError.text = it.message
-            }
-
-        )
+//        viewModelObserver = MovieListViewModelObserver(
+//            viewModel = viewModel,
+//            viewLifecycleOwner = this,
+//            liveData = {
+//                adapter = MyMovieAdapter(list = it, viewModel.recyclerViewItemClickListener)
+//                binding.recyclerView.adapter = adapter
+//                binding.swipeRefresh.isRefreshing = false
+//            },
+//            openDetail = {
+//                it.getContentIfNotHandled()?.let { movie ->
+//                    val action = MainFragmentDirections.actionMainFragmentToDetailFragment(movie.id)
+//                    findNavController().navigate(action)
+//                }
+//            },
+//            showError = {
+//                binding.tvError.text = it.message
+//            }
+//
+//        )
 
 
 //        viewModel =
@@ -66,22 +66,22 @@ class MainFragment : Fragment() {
 //                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
 //            )[MovieListViewModel::class.java]
 
-//        viewModel.liveData.observe(
-//            viewLifecycleOwner
-//        ) {
-//            adapter = MyMovieAdapter(list = it, viewModel.recyclerViewItemClickListener)
-//            binding.recyclerView.adapter = adapter
-//            binding.swipeRefresh.isRefreshing = false
-//        }
-//
-//        viewModel.openDetail.observe(
-//            viewLifecycleOwner
-//        ) {
-//            it.getContentIfNotHandled()?.let { movie ->
-//                val action = MainFragmentDirections.actionMainFragmentToDetailFragment(movie.id)
-//                findNavController().navigate(action)
-//            }
-//
-//        }
+        viewModel.liveData.observe(
+            viewLifecycleOwner
+        ) {
+            adapter = MyMovieAdapter(list = it, viewModel.recyclerViewItemClickListener)
+            binding.recyclerView.adapter = adapter
+            binding.swipeRefresh.isRefreshing = false
+        }
+
+        viewModel.openDetail.observe(
+            viewLifecycleOwner
+        ) {
+            it.getContentIfNotHandled()?.let { movie ->
+                val action = MainFragmentDirections.actionMainFragmentToDetailFragment(movie.id)
+                findNavController().navigate(action)
+            }
+
+        }
     }
 }
