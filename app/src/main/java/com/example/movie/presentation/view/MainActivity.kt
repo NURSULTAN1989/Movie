@@ -9,11 +9,13 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.movie.R
 import com.example.movie.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationBarView
+import com.google.firebase.analytics.FirebaseAnalytics
 
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private lateinit var analitics:FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         navController = findNavController(R.id.main_conteiner)
         initBottomNav()
         initOnDestinationChangedListener()
+        analitics = FirebaseAnalytics.getInstance(this)
     }
     private fun initOnDestinationChangedListener() {
         navController.addOnDestinationChangedListener { controller, destination, arguments ->

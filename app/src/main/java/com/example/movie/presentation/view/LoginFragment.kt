@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -38,6 +39,13 @@ class LoginFragment: Fragment() {
         initViewModel()
         viewModel.deleteSession()
         onLoginClick()
+        crashBtnClick()
+    }
+    private fun crashBtnClick(){
+        binding.crashBtn.text = "Test Crash"
+        binding.crashBtn.setOnClickListener {
+            throw RuntimeException("Test Crash") // Force a crash
+        }
     }
     private fun onLoginClick() {
         binding.logBtn.setOnClickListener {

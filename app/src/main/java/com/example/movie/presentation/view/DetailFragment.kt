@@ -36,7 +36,15 @@ class DetailFragment : Fragment() {
         getSessionId()
         getMovie(movieId)
         onFavoriteClickListener()
+        binding.swipeRefresh.setOnRefreshListener {
+            swipeRefresh()
+        }
     }
+    private fun swipeRefresh() {
+        getMovie(movieId)
+    }
+
+
     private fun getMovie(movieId: Int) {
         binding.swipeRefresh.isRefreshing=true
 //        viewModel =

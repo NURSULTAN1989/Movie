@@ -6,4 +6,8 @@
     <string name="password">PASSWORD</string>
     <string name="logout">LogOut</string>
     <string name="edit">Edit</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="go_to_map">Go to map</string>
+    <string name="google_maps_key">AIzaSyBsl-0EfHByY_cPqw_EW30wXXTpj3p8ZJg</string>
+    <string name="abylay_key">AIzaSyBjMO5z0-vDcLwOqBLQPr8EPAuq7yir2lE</string>
 </resources>

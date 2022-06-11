@@ -81,7 +81,6 @@ class MainFragment : Fragment() {
                 val action = MainFragmentDirections.actionMainFragmentToDetailFragment(movie.id)
                 findNavController().navigate(action)
             }
-
         }
     }
 }

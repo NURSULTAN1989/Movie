@@ -31,6 +31,12 @@ class FavoriteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         getSessionId()
         initAndObserveViewModel()
+        binding.swipeRefresh.setOnRefreshListener {
+            swipeRefresh()
+        }
+    }
+    private fun swipeRefresh() {
+        initAndObserveViewModel()
     }
     private fun getSessionId() {
         try {

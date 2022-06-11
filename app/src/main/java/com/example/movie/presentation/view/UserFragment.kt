@@ -39,6 +39,13 @@ class UserFragment:Fragment() {
         onLogoutPressed()
         getUser()
         onEditClick()
+        onMapPressed()
+        binding.swipeRefresh.setOnRefreshListener {
+            swiperefresh()
+        }
+    }
+    private fun swiperefresh(){
+        getUser()
     }
 
     private fun getUser(){
@@ -76,6 +83,12 @@ class UserFragment:Fragment() {
                 .compress(1024)
                 .maxResultSize(1080,1080)
                 .start()
+        }
+    }
+    private fun onMapPressed(){
+        binding.btnMap.setOnClickListener {
+            val intent = Intent(requireActivity(), MapsActivity::class.java)
+            startActivity(intent)
         }
     }
 

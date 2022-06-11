@@ -9,7 +9,7 @@ interface RetrofitServices {
     suspend fun getMoviesList(
         @Query("api_key") apiKey:String = API_KEY,
         @Query("language") language:String = PARAMS_LANGUAGE,
-        @Query("page") page:Int = 1
+        @Query("page") page:Int = 5
     ): Response<MovieList>
 
     @GET("movie/{movie_id}")
