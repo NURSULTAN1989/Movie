@@ -54,10 +54,11 @@ class DetailFragment : Fragment() {
 //            )[MovieDetailViewModel::class.java]
         viewModel.getMovieById(movieId)
         viewModel.movie.observe(viewLifecycleOwner) {
-            Picasso.get().load(IMAGE_URL + it.posterPath).into(binding.imageView2)
+            Picasso.get().load(IMAGE_URL + it.backdropPath).into(binding.imageView2)
             imgActive()
             binding.name.text=it.title
             binding.about.text = it.overview
+            binding.ratingBar.rating = it.voteAverage.toFloat()
             binding.originLang.text = it.originalLanguage
             binding.releaseDate.text = it.releaseDate
             binding.voteAverage.text = it.voteAverage.toString()
